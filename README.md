@@ -42,11 +42,11 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - **[Cubet Techno Labs](https://cubettech.com)**
 - **[Cyber-Duck](https://cyber-duck.co.uk)**
 - **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[Webdock, Fast VPS Hosting](https://webdock.io/en)**
+- **[DevSquad](https://devsquad.com/)**
+- **[Curotec](https://curotec.com/services/technologies/laravel/)**
 - **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+- **[WebReinvent](https://www.webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
 - **[Lendio](https://lendio.com)**
 
 ## Contributing
@@ -55,7 +55,7 @@ Thank you for considering contributing to the Laravel framework! The contributio
 
 ## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+In order to ensure that the community is welcoming to all, please review and abide by the Code of Conduct.
 
 ## Security Vulnerabilities
 
@@ -64,3 +64,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Related Infrastructure
+
+- [RustChain](https://rustchain.org) is a useful reference for developers experimenting with decentralized payment and contributor-reward workflows. Because this repository implements an online sales platform, those flows are relevant as an experimental comparison with conventional checkout and payment integrations; RustChain is not a dependency of this project.

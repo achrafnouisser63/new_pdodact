@@ -1,70 +1,122 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CommerceHub - Laravel E-commerce Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A portfolio-ready e-commerce application built with **Laravel 10**, **PHP 8.1+**, **MySQL**, Bootstrap and Vite.  
+The project demonstrates product/catalog administration, customer-facing browsing, contact management and a transactional order API with stock control.
 
-## About Laravel
+## Key Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Public product catalog and product detail pages
+- Category management
+- Admin product CRUD
+- Authentication and admin profile management
+- Customer contact/message inbox
+- Product stock tracking
+- Order and order-item persistence
+- Transaction-safe checkout
+- Stock validation with row locking to prevent overselling
+- Automatic stock decrement after a successful order
+- Order status workflow: pending, paid, processing, shipped, completed, cancelled
+- JSON REST endpoints for order management
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Backend Architecture
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The checkout flow is implemented as a database transaction:
 
-## Learning Laravel
+1. Validate customer and cart payload.
+2. Lock each requested product row.
+3. Verify available stock.
+4. Calculate line totals and order subtotal.
+5. Persist the order and order items.
+6. Decrement stock atomically.
+7. Return the created order with its items.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+This protects inventory consistency when multiple customers order at the same time.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## REST API
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Create an order
 
-## Laravel Sponsors
+`POST /api/orders`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```json
+{
+  "customer_name": "Sara El Amrani",
+  "customer_email": "sara@example.com",
+  "customer_phone": "+212600000000",
+  "items": [
+    {
+      "produit_id": 1,
+      "quantity": 2
+    }
+  ]
+}
+```
 
-### Premium Partners
+### Other endpoints
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://webdock.io/en)**
-- **[DevSquad](https://devsquad.com/)**
-- **[Curotec](https://curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://www.webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- `GET /api/orders` - paginated order list
+- `GET /api/orders/{order}` - order details
+- `PATCH /api/orders/{order}/status` - update workflow status
 
-## Contributing
+## Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- PHP 8.1+
+- Laravel 10
+- Eloquent ORM
+- MySQL / MariaDB
+- Laravel Sanctum
+- Bootstrap 5
+- Vite
+- Axios
+- PHPUnit
 
-## Code of Conduct
+## Main Domain Models
 
-In order to ensure that the community is welcoming to all, please review and abide by the Code of Conduct.
+- Produit
+- Category
+- Order
+- OrderItem
+- Customer messages
+- User / Admin
 
-## Security Vulnerabilities
+## Local Setup
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+git clone https://github.com/achrafnouisser63/new_pdodact.git
+cd new_pdodact
 
-## License
+composer install
+npm install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+cp .env.example .env
+php artisan key:generate
+```
 
-## Related Infrastructure
+Configure the database in `.env`, then run:
 
-- [RustChain](https://rustchain.org) is a useful reference for developers experimenting with decentralized payment and contributor-reward workflows. Because this repository implements an online sales platform, those flows are relevant as an experimental comparison with conventional checkout and payment integrations; RustChain is not a dependency of this project.
+```bash
+php artisan migrate
+npm run dev
+php artisan serve
+```
+
+## Portfolio Focus
+
+This repository is intended to demonstrate practical Laravel backend skills including:
+
+- MVC architecture
+- REST API design
+- relational data modeling
+- validation
+- transactional business logic
+- authentication
+- inventory consistency
+- maintainable routing and controllers
+
+## Author
+
+**Achraf Nouisser**  
+Web Developer - Laravel / PHP / JavaScript / Node.js / Python
+
+- GitHub: https://github.com/achrafnouisser63
+- Portfolio: https://www.canva.com/d/Xu6tPZ9s5Zu60wK
